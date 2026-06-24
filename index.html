@@ -86,7 +86,7 @@
 
     .clk {
       font-family: 'IM Fell English', serif;
-      font-size: 1rem;
+      font-size: 2rem;
       color: #6b4c2a;
       min-width: 88px;
     }
@@ -94,7 +94,7 @@
     .tabs { display: flex; gap: .35rem; flex-wrap: wrap; }
 
     .tab {
-      font-size: .7rem;
+      font-size: 1.3rem;
       font-weight: 600;
       letter-spacing: .1em;
       text-transform: uppercase;
@@ -113,7 +113,7 @@
     /* ── SCHEDULE ── */
     .main {
       padding: 1.6rem 1.2rem;
-      max-width: 700px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
@@ -245,11 +245,6 @@
 
 <main class="main" id="main" aria-label="Festivalprogrammet"></main>
 
-<footer class="leg">
-  <div class="li"><div class="ld lp"></div> Ferdig</div>
-  <div class="li"><div class="ld ln"></div> No på scena</div>
-  <div class="li"><div class="ld lu"></div> Kjem seinare</div>
-</footer>
 
 <script>
   /*
@@ -269,30 +264,29 @@
     {
       day: "Torsdag", date: "9. juli", iso: "2026-07-09",
       events: [
-        { t: "17:00", e: "18:00", n: "Opning og velkomst",                    p: "Storstova" },
+        { t: "17:00", e: "18:00", n: "Opning og velkomst",                    p: "Grua" },
         { t: "18:30", e: "20:00", n: "Johanna og Sara",                       p: "Bælgenesset" },
-        { t: "19:00", e: "19:45", n: "Næverfletting med Inger Myhran",        p: "Utescena"  },
-        { t: "21:00", e: "22:30", n: "Funk For Forest",                       p: "Låven" },
-        { t: "22:30", e: "00:00", n: "DJ Radsen",                             p: "Dunkeldunk"  },
+        { t: "21:00", e: "22:30", n: "Rigla",                                 p: "Låven" },
       ]
     },
     {
       day: "Fredag", date: "10. juli", iso: "2026-07-10",
       events: [
-        { t: "12:00", e: "15:00", n: "Sægling på fjorden",                    p: "Fjorden"   },
+        { t: "11:00", e: "14:00", n: "Sægling på fjorden",                    p: "Fjorden"   },
+        { t: "12:00", e: "18:00", n: "Næverfletting med Inger Myhran",        p: "Grua"  },
         { t: "14:00", e: "15:00", n: "Kurs i beinfløyter og bukkehorn",       p: "Storstova" },
         { t: "17:00", e: "18:30", n: "Kaanan",                                p: "Låven" },
-        { t: "20:00", e: "21:30", n: "WRATH",                                 p: "Storstova" },
-        { t: "22:30", e: "00:00", n: "DJ Radsen",                             p: "Storstova" },
+        { t: "20:00", e: "21:00", n: "Ragnhild Risnes",                       p: "Låven" },
+        { t: "19:00", e: "20:00", n: "Mikkel Rev",                            p: "Låven" },
+        { t: "21:00", e: "22:30", n: "WRATH",                                 p: "Låven" },
       ]
     },
     {
       day: "Laurdag", date: "11. juli", iso: "2026-07-11",
       events: [
         { t: "11:00", e: "14:00", n: "Løype og friluftsliv",                  p: "Laupet"    },
-        { t: "15:00", e: "16:00", n: "Rigla",                                 p: "Storstova" },
-        { t: "17:30", e: "19:00", n: "Fälaren",                               p: "Storstova" },
-        { t: "20:30", e: "22:00", n: "Mikkel Rev",                            p: "Storstova" },
+        { t: "12:00", e: "18:00", n: "Næverfletting med Inger Myhran",        p: "Grua"  },
+        { t: "21:00", e: "19:00", n: "Fälaren",                               p: "Låven" },        
         { t: "23:00", e: "01:00", n: "DJ Radsen",                             p: "Storstova" },
       ]
     }
