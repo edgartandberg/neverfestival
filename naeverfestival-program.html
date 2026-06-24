@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Norsk Næverfestival — Live Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --birch: #f5efe0;
+      --birch-dark: #e8ddc8;
+      --bark: #6b4c2a;
+      --bark-light: #9b7248;
+      --forest: #2d4a1e;
+      --forest-light: #4a7a2e;
+      --ink: #1e1810;
+      --ash: #8a7a6a;
+      --past: #b8ad9e;
+      --now-glow: #d4700a;
+      --paper: #faf6ee;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .festival-header {
+      background: var(--forest);
+      color: var(--birch);
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      border-bottom: 3px solid var(--bark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .festival-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.03) 40px,
+        rgba(255,255,255,0.03) 41px
+      );
+      pointer-events: none;
+    }
+
+    .logo-text {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #e8d8b0;
+      position: relative;
+    }
+
+    .logo-sub {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bark-light);
+      margin-top: 0.4rem;
+      font-weight: 300;
+    }
+
+    /* ── NOW BANNER ── */
+    .now-banner {
+      background: var(--now-glow);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.45rem 1rem;
+      text-align: center;
+      min-height: 2rem;
+    }
+
+    /* ── CLOCK BAR ── */
+    .clock-bar {
+      background: var(--birch-dark);
+      border-bottom: 1.5px solid #c9b99a;
+      padding: 0.65rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .clock {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.1rem;
+      color: var(--bark);
+      min-width: 90px;
+    }
+
+    .day-tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .day-tab {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border: 1.5px solid var(--bark-light);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--bark);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .day-tab:hover { background: var(--bark-light); color: var(--birch); }
+    .day-tab.active { background: var(--bark); color: var(--birch); border-color: var(--bark); }
+
+    /* ── MAIN SCHEDULE ── */
+    .schedule-container {
+      padding: 2rem 1.5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .day-section { display: none; }
+    .day-section.visible { display: block; }
+
+    .day-heading {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.5rem;
+      color: var(--forest);
+      border-bottom: 2px solid var(--bark-light);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+    }
+
+    .day-date {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    .stage-group { margin-bottom: 2rem; }
+
+    .stage-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--bark-light);
+      margin-bottom: 0.65rem;
+      padding-left: 0.6rem;
+      border-left: 2px solid var(--bark-light);
+    }
+
+    /* ── EVENT CARDS ── */
+    .event-card {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      gap: 0.4rem 0.8rem;
+      align-items: center;
+      padding: 0.7rem 0.8rem;
+      margin-bottom: 0.45rem;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: background 0.15s;
+    }
+
+    .event-card.past {
+      background: transparent;
+      opacity: 0.5;
+    }
+
+    .event-card.past .event-name {
+      text-decoration: line-through;
+      text-decoration-color: var(--past);
+    }
+
+    .event-card.happening {
+      background: #fff9f0;
+      border-color: var(--now-glow);
+      box-shadow: inset 4px 0 0 var(--now-glow);
+    }
+
+    .event-card.upcoming {
+      background: var(--birch);
+      border-color: var(--birch-dark);
+    }
+
+    .event-card.upcoming:hover {
+      background: var(--birch-dark);
+    }
+
+    .event-time {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.95rem;
+      color: var(--bark);
+      white-space: nowrap;
+      padding-top: 1px;
+    }
+
+    .event-card.past .event-time { color: var(--past); }
+    .event-card.happening .event-time { color: var(--now-glow); }
+
+    .event-info { min-width: 0; }
+
+    .event-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .event-card.past .event-name { color: var(--past); }
+    .event-card.happening .event-name { color: var(--now-glow); }
+
+    .event-desc {
+      font-size: 0.78rem;
+      color: var(--ash);
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    .event-badge {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .badge-past {
+      color: var(--past);
+      background: transparent;
+      border: 1px solid var(--past);
+    }
+
+    .badge-now {
+      color: #fff;
+      background: var(--now-glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .badge-soon {
+      color: var(--bark);
+      background: var(--birch-dark);
+      border: 1px solid #c9b99a;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+
+    /* ── LEGEND ── */
+    .footer-legend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+      background: var(--birch-dark);
+      border-top: 1.5px solid #c9b99a;
+      font-size: 0.75rem;
+      color: var(--ash);
+      letter-spacing: 0.06em;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-past { background: var(--past); }
+    .dot-now { background: var(--now-glow); }
+    .dot-upcoming { background: var(--forest-light); }
+
+    .no-events {
+      color: var(--ash);
+      font-style: italic;
+      font-size: 0.88rem;
+      padding: 1rem 0.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .event-card {
+        grid-template-columns: 48px 1fr auto;
+        gap: 0.3rem 0.5rem;
+        padding: 0.6rem 0.5rem;
+      }
+      .schedule-container { padding: 1.2rem 0.85rem; }
+      .clock-bar { padding: 0.5rem 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="festival-header">
+  <div class="logo-text">Norsk Næverfestival</div>
+  <div class="logo-sub">9.–12. juli 2026 &middot; Valsøyfjord</div>
+</header>
+
+<div class="now-banner" id="nowBanner">— LIVE PROGRAM —</div>
+
+<div class="clock-bar">
+  <div class="clock" id="liveClock">—</div>
+  <div class="day-tabs" id="dayTabs"></div>
+</div>
+
+<main class="schedule-container" id="scheduleContainer" aria-label="Festivalprogrammet"></main>
+
+<footer class="footer-legend">
+  <div class="legend-item"><div class="legend-dot dot-past"></div> Ferdig</div>
+  <div class="legend-item"><div class="legend-dot dot-now"></div> No på scena</div>
+  <div class="legend-item"><div class="legend-dot dot-upcoming"></div> Kjem seinare</div>
+</footer>
+
+<script>
+  /*
+   * ============================================================
+   *  PROGRAM — rediger dette for å oppdatere timeplanen
+   *
+   *  Kvart arrangement treng:
+   *    time:    "HH:MM"  (starttid)
+   *    endTime: "HH:MM"  (sluttid)
+   *    name:    namn på artist/arrangement
+   *    desc:    kort skildring (vises i kursiv)
+   *
+   *  isoDate for kvar dag MÅ vere "ÅÅÅÅ-MM-DD"
+   * ============================================================
+   */
+  const SCHEDULE = [
+    {
+      day: "Torsdag",
+      date: "9. juli",
+      isoDate: "2026-07-09",
+      stages: [
+        {
+          name: "Storstova",
+          events: [
+            { time: "17:00", endTime: "18:00", name: "Opning — velkomst", desc: "Festopning og tale" },
+            { time: "18:30", endTime: "20:00", name: "Johanna og Sara", desc: "Folkemusikk og song" },
+            { time: "21:00", endTime: "22:30", name: "Funk For Forest", desc: "Groovy folkrock" }
+          ]
+        },
+        {
+          name: "Utescena",
+          events: [
+            { time: "19:00", endTime: "19:45", name: "Næverfletting med Næverkjerringa Inger Myhran", desc: "Kurs og demonstrasjon" },
+            { time: "22:30", endTime: "00:00", name: "DJ Radsen", desc: "Dans utandørs" }
+          ]
+        }
+      ]
+    },
+    {
+      day: "Fredag",
+      date: "10. juli",
+      isoDate: "2026-07-10",
+      stages: [
+        {
+          name: "Storstova",
+          events: [
+            { time: "14:00", endTime: "15:00", name: "Kurs i beinfløyter og bukkehorn v/Bendik", desc: "Handverkskurs" },
+            { time: "17:00", endTime: "18:30", name: "Kaanan", desc: "Progressiv folk og rock" },
+            { time: "20:00", endTime: "21:30", name: "WRATH", desc: "Kraftfull rock" },
+            { time: "22:30", endTime: "00:00", name: "DJ Radsen", desc: "Nattklubb ute" }
+          ]
+        },
+        {
+          name: "Fjorden",
+          events: [
+            { time: "12:00", endTime: "15:00", name: "Sægling på fjorden", desc: "Segltur med lokal guide" }
+          ]
+        }
+      ]
+    },
+    {
+      day: "Laurdag",
+      date: "11. juli",
+      isoDate: "2026-07-11",
+      stages: [
+        {
+          name: "Storstova",
+          events: [
+            { time: "15:00", endTime: "16:00", name: "Rigla", desc: "Tradisjonsmusikk" },
+            { time: "17:30", endTime: "19:00", name: "Fälaren", desc: "Svensk folkerock" },
+            { time: "20:30", endTime: "22:00", name: "Mikkel Rev", desc: "Norsk viser og indie" },
+            { time: "23:00", endTime: "01:00", name: "DJ Radsen", desc: "Seinkveld og dans" }
+          ]
+        },
+        {
+          name: "Laupet",
+          events: [
+            { time: "11:00", endTime: "14:00", name: "Løype og friluftsliv", desc: "Friluftsaktivitetar i naturen" }
+          ]
+        }
+      ]
+    },
+    {
+      day: "Søndag",
+      date: "12. juli",
+      isoDate: "2026-07-12",
+      stages: [
+        {
+          name: "Storstova",
+          events: [
+            { time: "13:00", endTime: "14:30", name: "Ragnhild Risnes", desc: "Solist og songkveldsavslutning" },
+            { time: "15:00", endTime: "16:00", name: "Avslutning og takk", desc: "Festleg avslutning av festivalen" }
+          ]
+        }
+      ]
+    }
+  ];
+
+  /* ── helpers ── */
+  function parseTime(dateStr, timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const d = new Date(dateStr + 'T00:00:00');
+    d.setHours(h, m, 0, 0);
+    return d;
+  }
+
+  function getStatus(ev, isoDate, now) {
+    const start = parseTime(isoDate, ev.time);
+    const end   = parseTime(isoDate, ev.endTime);
+    /* midnight-crossing sets: if end <= start, add a day */
+    if (end <= start) end.setDate(end.getDate() + 1);
+    if (now >= end)   return 'past';
+    if (now >= start) return 'happening';
+    return 'upcoming';
+  }
+
+  function formatClock(d) {
+    return d.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function findAutoDay(now) {
+    const todayIso = now.toISOString().slice(0, 10);
+    let idx = SCHEDULE.findIndex(d => d.isoDate === todayIso);
+    if (idx !== -1) return idx;
+    idx = SCHEDULE.findIndex(d => d.isoDate > todayIso);
+    return idx !== -1 ? idx : SCHEDULE.length - 1;
+  }
+
+  let selectedDay = null;
+
+  /* ── build tabs ── */
+  function buildTabs(now) {
+    const container = document.getElementById('dayTabs');
+    container.innerHTML = '';
+    SCHEDULE.forEach((day, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'day-tab' + (i === selectedDay ? ' active' : '');
+      const shortDay = day.day.slice(0, 3);
+      const dayNum   = day.date.split('.')[0];
+      btn.textContent = shortDay + ' ' + dayNum + '.';
+      btn.setAttribute('aria-pressed', i === selectedDay ? 'true' : 'false');
+      btn.addEventListener('click', () => { selectedDay = i; render(); });
+      container.appendChild(btn);
+    });
+  }
+
+  /* ── build schedule ── */
+  function buildSchedule(now) {
+    const container = document.getElementById('scheduleContainer');
+    container.innerHTML = '';
+
+    SCHEDULE.forEach((day, di) => {
+      const section = document.createElement('div');
+      section.className = 'day-section' + (di === selectedDay ? ' visible' : '');
+      section.setAttribute('role', 'region');
+      section.setAttribute('aria-label', day.day + ' ' + day.date);
+
+      const heading = document.createElement('h2');
+      heading.className = 'day-heading';
+      heading.innerHTML = day.day + ' <span class="day-date">' + day.date + '</span>';
+      section.appendChild(heading);
+
+      day.stages.forEach(stage => {
+        const stageDiv = document.createElement('div');
+        stageDiv.className = 'stage-group';
+
+        const lbl = document.createElement('div');
+        lbl.className = 'stage-label';
+        lbl.setAttribute('role', 'heading');
+        lbl.setAttribute('aria-level', '3');
+        lbl.textContent = stage.name;
+        stageDiv.appendChild(lbl);
+
+        stage.events.forEach(ev => {
+          const status = getStatus(ev, day.isoDate, now);
+          const card   = document.createElement('div');
+          card.className = 'event-card ' + status;
+
+          /* time */
+          const timeEl = document.createElement('div');
+          timeEl.className = 'event-time';
+          timeEl.textContent = ev.time;
+
+          /* info */
+          const info = document.createElement('div');
+          info.className = 'event-info';
+          const nameEl = document.createElement('div');
+          nameEl.className = 'event-name';
+          nameEl.textContent = ev.name;
+          const descEl = document.createElement('div');
+          descEl.className = 'event-desc';
+          descEl.textContent = ev.desc;
+          info.appendChild(nameEl);
+          info.appendChild(descEl);
+
+          /* badge */
+          const badge = document.createElement('div');
+          badge.className = 'event-badge';
+          if (status === 'past') {
+            badge.classList.add('badge-past');
+            badge.textContent = 'Ferdig';
+          } else if (status === 'happening') {
+            badge.classList.add('badge-now');
+            badge.textContent = '▶ No';
+          } else {
+            badge.classList.add('badge-soon');
+            badge.textContent = ev.time;
+          }
+
+          card.appendChild(timeEl);
+          card.appendChild(info);
+          card.appendChild(badge);
+          stageDiv.appendChild(card);
+        });
+
+        section.appendChild(stageDiv);
+      });
+
+      container.appendChild(section);
+    });
+  }
+
+  /* ── update live banner ── */
+  function updateBanner(now) {
+    const banner    = document.getElementById('nowBanner');
+    const todayIso  = now.toISOString().slice(0, 10);
+    const day       = SCHEDULE.find(d => d.isoDate === todayIso);
+
+    if (!day) {
+      banner.textContent = '— LIVE PROGRAM —';
+      return;
+    }
+
+    let happening = null;
+    day.stages.forEach(s => {
+      s.events.forEach(ev => {
+        if (!happening && getStatus(ev, day.isoDate, now) === 'happening') {
+          happening = { stage: s.name, name: ev.name };
+        }
+      });
+    });
+
+    if (happening) {
+      banner.textContent = '▶ NO: ' + happening.name.toUpperCase() + '  —  ' + happening.stage.toUpperCase();
+    } else {
+      banner.textContent = '— LIVE PROGRAM —  ' + day.day.toUpperCase() + ' ' + day.date.toUpperCase() + ' —';
+    }
+  }
+
+  /* ── main render loop ── */
+  function render() {
+    const now = new Date();
+    if (selectedDay === null) selectedDay = findAutoDay(now);
+    document.getElementById('liveClock').textContent = formatClock(now);
+    buildTabs(now);
+    buildSchedule(now);
+    updateBanner(now);
+  }
+
+  render();
+  setInterval(render, 10000);
+</script>
+</body>
+</html>
