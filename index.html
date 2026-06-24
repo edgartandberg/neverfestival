@@ -367,7 +367,7 @@
 
         const bd = document.createElement('div');
         bd.className = 'bd ' + (s === 'past' ? 'p' : s === 'now' ? 'n' : 'u');
-        bd.textContent = s === 'past' ? 'Ferdig' : s === 'now' ? '▶ No' : ev.t;
+        bd.textContent = s === 'past' ? 'Ferdig' : s === 'now' ? 'Skjer no!' : ev.t;
 
         card.appendChild(te);
         card.appendChild(inf);
@@ -385,7 +385,7 @@
     if (!todayDay) { lb.textContent = '— LIVE PROGRAM —'; return; }
     const hap = todayDay.events.find(ev => st(ev, todayDay.iso, now) === 'now');
     lb.textContent = hap
-      ? '▶ NO: ' + hap.n.toUpperCase() + '  —  ' + hap.p.toUpperCase()
+      ? 'Skjer no: ' + hap.n.toUpperCase() + '  —  ' + hap.p.toUpperCase()
       : '— LIVE PROGRAM —  ' + todayDay.day.toUpperCase() + ' ' + todayDay.date.toUpperCase() + ' —';
   }
 
